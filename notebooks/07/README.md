@@ -39,7 +39,7 @@ INPUT_JSON: { "aspect_ratio": 0.5, "k": 4, "hotspots": [ {"x": 0.85, "y": 0.74, 
 ```
 W&B loss curves:
 ========================================================================
-Training itself appeared pretty good based on the graphs. While general consensus is that its training loss should ideally be in the decimals, especially for structured outputs. <br>
+Training itself looks healthy based on the graphs. Loss dropped quickly, learning rate decayed smoothly, grad norm stayed low after early steps. <br>
 It appears with 1000 synthetic examples at an epoch of 3, it hovered at around 1.2.
 <img width="770" height="313" alt="training" src="https://github.com/user-attachments/assets/0c7453c8-30b1-4ebf-994c-f22421720578" />
 <img width="1090" height="336" alt="training2" src="https://github.com/user-attachments/assets/a3d8ad2c-7dd7-4644-80a8-3d3af83fefcd" />
