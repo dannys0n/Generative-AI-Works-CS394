@@ -1,14 +1,14 @@
 Naming convention for voronoi files:
 
-k#-h#-a#
-k=seed count
-h=hotspots
-a=aspect ratio
+k#-h#-a#<br>
+k=seed count<br>
+h=hotspots<br>
+a=aspect ratio<br>
 Each file’s voronoi are grouped by cases 0-7
 
 Context:
 ========================================================================
-A small model fine tuned with the goal of generating voronoi points that try to optimize for separating hotspots. 
+A small model fine tuned with the goal of generating voronoi points that try to optimize for separating hotspots. <br>
 We won’t be explicitly optimizing for load capacity, network conditions, and the cost of splitting hotspots in the context of each cell being a server in a server mesh.
 
 Example Prompt:
@@ -39,7 +39,7 @@ INPUT_JSON: { "aspect_ratio": 0.5, "k": 4, "hotspots": [ {"x": 0.85, "y": 0.74, 
 ```
 W&B loss curves:
 ========================================================================
-Training itself appeared pretty good based on the graphs. While general consensus is that its training loss should ideally be in the decimals, especially for structured outputs. 
+Training itself appeared pretty good based on the graphs. While general consensus is that its training loss should ideally be in the decimals, especially for structured outputs. <br>
 It appears with 1000 synthetic examples at an epoch of 3, it hovered at around 1.2.
 <img width="770" height="313" alt="training" src="https://github.com/user-attachments/assets/0c7453c8-30b1-4ebf-994c-f22421720578" />
 <img width="1090" height="336" alt="training2" src="https://github.com/user-attachments/assets/a3d8ad2c-7dd7-4644-80a8-3d3af83fefcd" />
@@ -52,13 +52,12 @@ What worked:
 ========================================================================
 The requested json structure indeed was respected during my tests. Generally, these seeds looked pretty good when k value was less than h, separating when they can, group and split hotspots. The seeds generated themselves produced some interesting results.
 
-Starting with the most realistic setup for us. 4 servers and 6 hotspots.
-Looking at file k4-h6-a1, case 7 shows our best case scenario. nice separation of far away hotspots, grouping, and splitting very hot ones when necessary.
+Starting with the most realistic setup for us. 4 servers and 6 hotspots.<br>
+Looking at file k4-h6-a1, case 7 shows our best case scenario. nice separation of far away hotspots, grouping, and splitting very hot ones when necessary.<br>
 <img width="497" height="501" alt="k4-h6-case7" src="https://github.com/user-attachments/assets/b012e607-91a3-488e-b199-1b77ad1c2459" />
 
-Another ideal prompting scenario. 6 servers and 10 hotspots.
-Looking at file k6-h10-a1.5, case 2 also nicely grouped hotspots close together and separated when it can.
-
+Another ideal prompting scenario. 6 servers and 10 hotspots.<br>
+Looking at file k6-h10-a1.5, case 2 also nicely grouped hotspots close together and separated when it can.<br>
 <img width="608" height="449" alt="k4-h10-case2" src="https://github.com/user-attachments/assets/4048c3c4-a04a-4358-86c5-b103e456efe2" />
 
 What didn’t:
@@ -67,16 +66,16 @@ It mostly came from a combination of k value being higher than h, and the python
 
 These issues can easily be resolved manually in a post-processing step. And while these issues were unexpected, they’re easy to detect for prune and jittering.
 
-We can see these issues pop up in our test cases, where k was significantly higher than h.
-Looking at file k20-h10-a1, case 6 shows generally sound seeds, but then a lot of seeds went off into no mans land.
+We can see these issues pop up in our test cases, where k was significantly higher than h.<br>
+Looking at file k20-h10-a1, case 6 shows generally sound seeds, but then a lot of seeds went off into no mans land.<br>
 <img width="446" height="442" alt="k20-h10-case6" src="https://github.com/user-attachments/assets/b7730135-13e3-4c93-9519-4c832e6a264f" />
 
-Case 5 appears to separate quite nicely, but this was only after pruning seeds that were stacking on top of each other.
+Case 5 appears to separate quite nicely, but this was only after pruning seeds that were stacking on top of each other.<br>
 <img width="448" height="449" alt="k20-h10-case5" src="https://github.com/user-attachments/assets/330b1cc2-97e6-409f-8ba9-7458a49a8752" />
 
 What I would change:
 ========================================================================
-Remove the aspect ratio parameter; it may have just introduced noise. We would assume a square aspect ratio for all completions. 
+Remove the aspect ratio parameter; it may have just introduced noise. We would assume a square aspect ratio for all completions. <br>
 One possible extension would be to have a dedicated model also for 3d voronoi, I am curious of its reliability.
 
 I would also consider prompting the synthetic generation step to avoid bad seeds, such as collinear and stacking.
