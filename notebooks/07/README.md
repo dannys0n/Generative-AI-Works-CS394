@@ -6,6 +6,11 @@ h=hotspots<br>
 a=aspect ratio<br>
 Each file’s voronoi are grouped by cases 0-7
 
+Running Model:
+========================================================================
+Either run as just a chat model in LMstudio with the Example prompt below. <br>
+Or, run it as LMstudio local server on port 1234, download and run the notebook locally
+
 Context:
 ========================================================================
 A small model fine tuned with the goal of generating voronoi points that try to optimize for separating hotspots. <br>
